@@ -22,7 +22,11 @@ export class SharedWorkspaceManager extends WorkspaceManager {
 
   moveToWorkspace(window: Window, ws: number): void {
     if (ws < 0 || ws >= this.workspaces.length) return;
-    ref(window).workspace = this.workspaces[ws];
+
+    const targetWorkspace = this.workspaces[ws];
+    ref(window).workspace = targetWorkspace;
+    if (targetWorkspace.active)
+      workspace.sendClientToScreen(window, targetWorkspace.output!);
     print(`[PMW] Move to workspace ${ws + 1}, window [${window.caption}]`);
   }
 
