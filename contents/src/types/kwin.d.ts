@@ -22,6 +22,7 @@ export type Window = {
   skipSwitcher: boolean;
   minimized: boolean;
   readonly outputChanged: Signal<() => void>;
+  readonly minimizedChanged: Signal<() => void>;
 };
 export type WorkspaceWrapper = {
   readonly activeScreen: Output;

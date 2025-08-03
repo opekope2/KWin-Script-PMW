@@ -32,10 +32,20 @@ function onWindowMoved(window: Window) {
   print(`[PMW] Move to workspace ${targetWorkspace.ordinal + 1}`);
 }
 
+function onWindowMinimizedChanged(window: Window) {
+  if (!window.minimized) return;
+
+  const activeWorkspace = workspaceManager.getActiveWorkspace(window.output);
+  const windowWorkspace = ref(window).workspace;
+  if (activeWorkspace != windowWorkspace)
+    workspaceManager.activateWorkspace(windowWorkspace.ordinal);
+}
+
 function onWindowAdded(window: Window) {
   if (!window.normalWindow) return;
   ref(window).workspace = workspaceManager.getActiveWorkspace(window.output);
   window.outputChanged.connect(() => onWindowMoved(window));
+  window.minimizedChanged.connect(() => onWindowMinimizedChanged(window));
 }
 
 function onWindowRemoved(window: Window) {
