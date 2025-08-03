@@ -15,13 +15,9 @@ export class Workspace {
     return this._output;
   }
 
-  private updateWindow(window: Window) {
-    ref(window).show(this.active);
-  }
-
   addWindow(window: Window) {
     this._windows.add(window);
-    this.updateWindow(window);
+    ref(window).show(this.active);
   }
 
   removeWindow(window: Window) {
@@ -31,13 +27,13 @@ export class Workspace {
   activate(output: Output) {
     this._output = output;
     for (const window of this._windows) {
-      ref(window).show(this.active);
+      ref(window).show(true);
       if (window.output != output) workspace.sendClientToScreen(window, output);
     }
   }
 
   deactivate() {
     this._output = undefined;
-    for (const window of this._windows) ref(window).show(this.active);
+    for (const window of this._windows) ref(window).show(false);
   }
 }
