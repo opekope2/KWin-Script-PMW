@@ -28,6 +28,7 @@ export class WindowRef {
   }
 
   unref() {
+    this._workspace?.removeWindow(this._window);
     windows.delete(this._window);
     print(`[PMW] Untrack window ${this._window} [${this._window.caption}]`);
   }
