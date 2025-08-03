@@ -1,6 +1,6 @@
 {
   "name": "kwin-script-pmw",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "KWin Per-Monitor Workspaces",
   "homepage": "https://github.com/opekope2/KWin-Script-PMW#readme",
   "bugs": {
