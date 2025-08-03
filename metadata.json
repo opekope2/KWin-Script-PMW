@@ -10,7 +10,7 @@
       }
     ],
     "Id": "pmw",
-    "Version": "0.1",
+    "Version": "0.1.0",
     "License": "GPLv3",
     "Website": "https://github.com/opekope2/KWin-Script-PMW"
   },
