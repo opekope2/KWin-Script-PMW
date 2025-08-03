@@ -1,0 +1,47 @@
+import { Output, Window } from "../types/kwin";
+import { ref } from "../WindowRef";
+
+export class Workspace {
+  private readonly _windows = new Set<Window>();
+  private _output?: Output;
+
+  constructor(public readonly ordinal: number) {}
+
+  get active(): boolean {
+    return this._output != undefined;
+  }
+
+  get output(): Output | undefined {
+    return this._output;
+  }
+
+  private updateWindows() {
+    this._windows.forEach(this.updateWindow, this);
+  }
+
+  private updateWindow(window: Window) {
+    ref(window).show(this.active);
+  }
+
+  addWindow(window: Window) {
+    this._windows.add(window);
+    this.updateWindow(window);
+  }
+
+  removeWindow(window: Window) {
+    this._windows.delete(window);
+  }
+
+  activate(output: Output) {
+    this._output = output;
+    this.updateWindows();
+    this._windows.forEach((w) => {
+      if (w.output != output) workspace.sendClientToScreen(w, output);
+    });
+  }
+
+  deactivate() {
+    this._output = undefined;
+    this.updateWindows();
+  }
+}
