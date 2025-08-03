@@ -5,31 +5,41 @@ import { ref } from "./WindowRef";
 const workspaceCount = 10;
 const workspaceManager = new SharedWorkspaceManager(workspaceCount);
 
-function moveToWorkspace(ws: number, silent: boolean) {
+let managingWorkspaces = false;
+
+function activateWorkspace(ws: number) {
+  managingWorkspaces = true;
+  workspaceManager.activateWorkspace(ws);
+  managingWorkspaces = false;
+}
+
+function moveActiveToWorkspace(ws: number, silent: boolean) {
   workspaceManager.moveToWorkspace(workspace.activeWindow, ws);
-  if (!silent) workspaceManager.activateWorkspace(ws);
-  print(`[PMW] Move to workspace ${ws + 1} ${silent ? "(silent)" : ""}`);
+  if (!silent) activateWorkspace(ws);
 }
 
 function setupKeybinds() {
   for (let i = 0; i < workspaceCount; i++) {
     registerShortcut(`PMW - Activate workspace ${i + 1}`, "", "", () =>
-      workspaceManager.activateWorkspace(i)
+      activateWorkspace(i)
     );
     registerShortcut(`PMW - Move to workspace ${i + 1}`, "", "", () =>
-      moveToWorkspace(i, false)
+      moveActiveToWorkspace(i, false)
     );
     registerShortcut(`PMW - Move to workspace ${i + 1} silently`, "", "", () =>
-      moveToWorkspace(i, true)
+      moveActiveToWorkspace(i, true)
     );
   }
 }
 
 function onWindowMoved(window: Window) {
-  // TODO
+  if (managingWorkspaces) return;
+
   const targetWorkspace = workspaceManager.getActiveWorkspace(window.output);
+  if (targetWorkspace == ref(window).workspace) return;
+
+  // TODO by-ref instead of by-id
   workspaceManager.moveToWorkspace(window, targetWorkspace.ordinal);
-  print(`[PMW] Move to workspace ${targetWorkspace.ordinal + 1}`);
 }
 
 function onWindowMinimizedChanged(window: Window) {
@@ -38,7 +48,7 @@ function onWindowMinimizedChanged(window: Window) {
   const activeWorkspace = workspaceManager.getActiveWorkspace(window.output);
   const windowWorkspace = ref(window).workspace;
   if (activeWorkspace != windowWorkspace)
-    workspaceManager.activateWorkspace(windowWorkspace.ordinal);
+    activateWorkspace(windowWorkspace.ordinal);
 }
 
 function onWindowAdded(window: Window) {

@@ -12,12 +12,22 @@ export class SharedWorkspaceManager extends WorkspaceManager {
     const currentWorkspace = this.getActiveWorkspace(output);
     const newWorkspace = this.workspaces[ws];
     if (currentWorkspace == newWorkspace) return;
-    if (newWorkspace.active) return; // TODO swap workspaces
+    if (newWorkspace.active) {
+      currentWorkspace.activate(newWorkspace.output!);
+      newWorkspace.activate(output);
 
-    currentWorkspace.deactivate();
-    newWorkspace.activate(output);
-    this.activeWorkspace.set(output, newWorkspace);
-    print(`[PMW] Activate workspace ${ws + 1}, output ${output.name}`);
+      this.activeWorkspace.set(currentWorkspace.output!, currentWorkspace);
+      this.activeWorkspace.set(newWorkspace.output!, newWorkspace);
+
+      const currentOrdinal = currentWorkspace.ordinal;
+      const newOrdinal = newWorkspace.ordinal;
+      print(`[PMW] Swap workspaces ${currentOrdinal + 1}, ${newOrdinal + 1}`);
+    } else {
+      currentWorkspace.deactivate();
+      newWorkspace.activate(output);
+      this.activeWorkspace.set(output, newWorkspace);
+      print(`[PMW] Activate workspace ${ws + 1}, output ${output.name}`);
+    }
   }
 
   moveToWorkspace(window: Window, ws: number): void {
