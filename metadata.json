@@ -1,0 +1,20 @@
+{
+  "KPlugin": {
+    "Name": "Per-Monitor Workspaces",
+    "Description": "KWin Per-Monitor Workspaces",
+    "Icon": "virtual-desktops",
+    "Authors": [
+      {
+        "Email": "opekope2@opekope2.dev",
+        "Name": "opekope2"
+      }
+    ],
+    "Id": "pmw",
+    "Version": "0.1",
+    "License": "GPLv3",
+    "Website": "https://github.com/opekope2/KWin-Script-PMW"
+  },
+  "X-Plasma-API": "javascript",
+  "X-Plasma-MainScript": "code/main.js",
+  "KPackageStructure": "KWin/Script"
+}

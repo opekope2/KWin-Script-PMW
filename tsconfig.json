@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "lib": [
+      "ES2016"
+    ],
+    "target": "es2016",
+    "module": "es2015",
+    "noEmitOnError": true,
+    "removeComments": true,
+    "strictNullChecks": true
+  },
+  "include": [
+    "contents/src/**/*"
+  ]
+}

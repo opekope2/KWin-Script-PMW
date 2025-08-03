@@ -140,3 +140,6 @@ vite.config.ts.timestamp-*
 
 # Compiled output
 contents/code/*.js
+
+# Packaged output
+*.kwinscript

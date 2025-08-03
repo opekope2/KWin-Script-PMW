@@ -1,0 +1,30 @@
+{
+  "name": "kwin-script-pmw",
+  "version": "1.0.0",
+  "description": "KWin Per-Monitor Workspaces",
+  "homepage": "https://github.com/opekope2/KWin-Script-PMW#readme",
+  "bugs": {
+    "url": "https://github.com/opekope2/KWin-Script-PMW/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/opekope2/KWin-Script-PMW.git"
+  },
+  "license": "GPL-3.0-or-later",
+  "author": "opekope2",
+  "type": "module",
+  "scripts": {
+    "build": "rollup -c",
+    "package": "npm run build && zip -r pmw.kwinscript contents/code metadata.json",
+    "kwin:install": "npm run build && kpackagetool6 -t KWin/Script -i .",
+    "kwin:upgrade": "npm run build && kpackagetool6 -t KWin/Script -u .",
+    "kwin:uninstall": "kpackagetool6 -t KWin/Script -r pmw",
+    "kwin:logs": "journalctl -f QT_CATEGORY=js QT_CATEGORY=kwin_scripting"
+  },
+  "devDependencies": {
+    "@rollup/plugin-typescript": "^12.1.4",
+    "rollup": "^4.46.2",
+    "tslib": "^2.8.1",
+    "typescript": "^5.9.2"
+  }
+}
