@@ -15,10 +15,6 @@ export class Workspace {
     return this._output;
   }
 
-  private updateWindows() {
-    this._windows.forEach(this.updateWindow, this);
-  }
-
   private updateWindow(window: Window) {
     ref(window).show(this.active);
   }
@@ -34,14 +30,14 @@ export class Workspace {
 
   activate(output: Output) {
     this._output = output;
-    this.updateWindows();
-    this._windows.forEach((w) => {
-      if (w.output != output) workspace.sendClientToScreen(w, output);
-    });
+    for (const window of this._windows) {
+      ref(window).show(this.active);
+      if (window.output != output) workspace.sendClientToScreen(window, output);
+    }
   }
 
   deactivate() {
     this._output = undefined;
-    this.updateWindows();
+    for (const window of this._windows) ref(window).show(this.active);
   }
 }
