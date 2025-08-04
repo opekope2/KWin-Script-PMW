@@ -17,7 +17,7 @@ export abstract class WorkspaceManager {
     return this.activeWorkspace.get(output)!;
   }
 
-  abstract activateWorkspace(ws: number): void;
+  abstract activateWorkspace(ws: number, bringToActiveOutput: boolean): void;
 
   abstract moveToWorkspace(window: Window, ws: number): void;
 

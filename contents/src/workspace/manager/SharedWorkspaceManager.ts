@@ -5,7 +5,7 @@ import { WorkspaceManager } from "./WorkspaceManager";
 export class SharedWorkspaceManager extends WorkspaceManager {
   private workspaces = this.createWorkspaces();
 
-  activateWorkspace(ws: number): void {
+  activateWorkspace(ws: number, bringToActiveOutput: boolean): void {
     if (ws < 0 || ws >= this.workspaces.length) return;
 
     const output = workspace.activeScreen;
@@ -13,6 +13,8 @@ export class SharedWorkspaceManager extends WorkspaceManager {
     const newWorkspace = this.workspaces[ws];
     if (currentWorkspace == newWorkspace) return;
     if (newWorkspace.active) {
+      if (!bringToActiveOutput) return;
+
       currentWorkspace.activate(newWorkspace.output!);
       newWorkspace.activate(output);
 

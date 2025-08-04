@@ -7,9 +7,9 @@ const workspaceManager = new SharedWorkspaceManager(workspaceCount);
 
 let managingWorkspaces = false;
 
-function activateWorkspace(ws: number) {
+function activateWorkspace(ws: number, bringToActiveOutput: boolean = true) {
   managingWorkspaces = true;
-  workspaceManager.activateWorkspace(ws);
+  workspaceManager.activateWorkspace(ws, bringToActiveOutput);
   managingWorkspaces = false;
 }
 
@@ -17,7 +17,7 @@ function moveActiveToWorkspace(ws: number, silent: boolean) {
   const window = workspace.activeWindow;
   if (!silent) {
     ref(window).workspace.removeWindow(window); // Prevent minimization and un-minimization while changing workspaces, otherwise Xorg windows become unresponsize to mouse input.
-    activateWorkspace(ws);
+    activateWorkspace(ws, false);
   }
 
   managingWorkspaces = true;
