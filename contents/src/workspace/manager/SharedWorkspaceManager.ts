@@ -45,10 +45,19 @@ export class SharedWorkspaceManager extends WorkspaceManager {
     freeWorkspaces[0].activate(output);
     this.activeWorkspace.set(output, freeWorkspaces[0]); // TODO not enough workspaces
     const ws = freeWorkspaces[0].ordinal;
+
+    // KWin automatically moves windows between monitors and back, if the user didn't touch them. It also undoes WindowRef.show(false) effects.
+    // Window.outputChanged gets called before WorkspaceWrapper.screensChanged, so the output has no workspace assigned when the windows get moved.
+    for (const window of workspace.stackingOrder) {
+      if (window.normalWindow && window.output == output)
+        this.moveToWorkspace(window, ws);
+    }
+
     print(`[PMW] Add output ${output.name} workspace ${ws + 1}`);
   }
 
   protected removeOutput(output: Output): void {
+    this.activeWorkspace.get(output)!.deactivate();
     this.activeWorkspace.delete(output);
     print(`[PMW] Remove output ${output.name}`);
   }
