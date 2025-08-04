@@ -14,8 +14,15 @@ function activateWorkspace(ws: number) {
 }
 
 function moveActiveToWorkspace(ws: number, silent: boolean) {
-  workspaceManager.moveToWorkspace(workspace.activeWindow, ws);
-  if (!silent) activateWorkspace(ws);
+  const window = workspace.activeWindow;
+  if (!silent) {
+    ref(window).workspace.removeWindow(window); // Prevent minimization and un-minimization while changing workspaces, otherwise Xorg windows become unresponsize to mouse input.
+    activateWorkspace(ws);
+  }
+
+  managingWorkspaces = true;
+  workspaceManager.moveToWorkspace(window, ws);
+  managingWorkspaces = false;
 }
 
 function setupKeybinds() {
@@ -43,7 +50,8 @@ function onWindowMoved(window: Window) {
 }
 
 function onWindowMinimizedChanged(window: Window) {
-  if (!window.minimized) return;
+  if (managingWorkspaces) return;
+  if (window.minimized) return;
 
   const activeWorkspace = workspaceManager.getActiveWorkspace(window.output);
   const windowWorkspace = ref(window).workspace;
