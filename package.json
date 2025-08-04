@@ -16,10 +16,14 @@
   "scripts": {
     "build": "rollup -c",
     "package": "npm run build && zip -r pmw.kwinscript contents/code metadata.json",
-    "kwin:install": "npm run build && kpackagetool6 -t KWin/Script -i .",
-    "kwin:upgrade": "npm run build && kpackagetool6 -t KWin/Script -u .",
-    "kwin:uninstall": "kpackagetool6 -t KWin/Script -r pmw",
-    "kwin:logs": "journalctl -f QT_CATEGORY=js QT_CATEGORY=kwin_scripting"
+    "kde:install": "npm run build && kpackagetool6 -t KWin/Script -i .",
+    "kde:update": "npm run build && kpackagetool6 -t KWin/Script -u .",
+    "kde:uninstall": "kpackagetool6 -t KWin/Script -r pmw",
+    "kwin:start": "qdbus6 org.kde.KWin /Scripting org.kde.kwin.Scripting.start",
+    "kwin:stop": "qdbus6 org.kde.KWin /Scripting org.kde.kwin.Scripting.unloadScript pmw",
+    "kwin:restart": "npm run kwin:stop && npm run kwin:start",
+    "kwin:reload": "npm run kde:update && npm run kwin:restart",
+    "logs": "journalctl -f QT_CATEGORY=js QT_CATEGORY=kwin_scripting"
   },
   "devDependencies": {
     "@rollup/plugin-typescript": "^12.1.4",
