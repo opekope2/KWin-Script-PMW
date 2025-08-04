@@ -1,14 +1,14 @@
 {
-  "name": "kwin-script-pmw",
-  "version": "0.1.1",
+  "name": "kwin-pmw",
+  "version": "0.2.0",
   "description": "KWin Per-Monitor Workspaces",
-  "homepage": "https://github.com/opekope2/KWin-Script-PMW#readme",
+  "homepage": "https://github.com/opekope2/KWin-PMW#readme",
   "bugs": {
-    "url": "https://github.com/opekope2/KWin-Script-PMW/issues"
+    "url": "https://github.com/opekope2/KWin-PMW/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/opekope2/KWin-Script-PMW.git"
+    "url": "git+https://github.com/opekope2/KWin-PMW.git"
   },
   "license": "GPL-3.0-or-later",
   "author": "opekope2",

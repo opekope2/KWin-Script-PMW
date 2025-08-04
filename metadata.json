@@ -10,9 +10,9 @@
       }
     ],
     "Id": "pmw",
-    "Version": "0.1.1",
+    "Version": "0.2.0",
     "License": "GPLv3",
-    "Website": "https://github.com/opekope2/KWin-Script-PMW"
+    "Website": "https://github.com/opekope2/KWin-PMW"
   },
   "X-Plasma-API": "javascript",
   "X-Plasma-MainScript": "code/main.js",
